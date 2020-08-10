@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Show Logged User Firstname on Header</name>
+  <code>show-logged-user-firtname-on-header</code>
+  <version>1.0</version>
+  <author>Rafael Marques - rafa@rafaelmarques.me</author>
+  <link>https:/www.rafaelmarques.me</link>
+  <file path="catalog/controller/common/header.php">
+    <operation>
+      <search>
+      <![CDATA[$data['home'] = $this->url->link('common/home');]]>
+      </search>
+      <add position="before">
+        <![CDATA[
+          $data['customer_firstname'] = $this->customer->getFirstName();
+        ]]>
+      </add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/*/template/common/header.twig">
+    <operation>
+      <search>
+      <![CDATA[<div id="top-links" class="nav pull-right">]]>
+      </search>
+      <add position="after" offset="1">
+        <![CDATA[
+        {% if logged %}
+          <li><span class="hidden-xs hidden-sm"><b>{{ customer_firstname }}</b> </span><a href="{{ logout }}">({{ text_logout }})</a></li>
+        {% endif %}
+        ]]>
+      </add>
+    </operation>
+  </file>
+</modification>
